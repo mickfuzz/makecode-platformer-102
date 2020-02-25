@@ -153,7 +153,7 @@ To save time we will copy the **Code Pattern** used to create our Food blocks. L
 
 Drag the duplicated ``||loops:for element||`` loop back into your ``||loops:on Start||`` loop under that previous one. 
 Change the ``||scene:locations||`` colour block to brown, change the name to ``||variables:chest||``, the image to a chest and the ``||sprites: of kind||`` value to ``||sprites:Door||``. 
-As ``||sprites:Door||`` isn't in the drop-down list, click on **Add new Kind** and enter Door there.
+As ``||sprites:Door||`` isn't in the drop-down list, click on **Add new Kind** and enter Door there.  
 
 ![Door loop ](https://github.com/mickfuzz/makecode-platformer-101/blob/master/images/door_3.png?raw=true)
 
@@ -686,3 +686,4 @@ How about the following
 * Jump on Enemies to zap them
 
 There are follow-up tutorials to come but for the meantime just have a play. 
+
