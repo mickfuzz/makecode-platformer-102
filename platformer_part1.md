@@ -2,18 +2,8 @@
 
 # Making a Platformer Game Part One
 
-## Introduction 
-### Introduction @unplugged
+## Introduction Creating your Character
 
-Welcome to part one of this this tutorial on how to make a platformer game with Arcade MakeCode. 
-In this tutorial we will cover the basics of how to: 
-
-* Create a Player character
-* Move the Player element around the screen
-* Create a Game Space using platforms using the tilemap tool
-* Add Food to collect using the tilemap tool
-
-## Introduction Creating your Player Character
 ### Create your Character @fullscreen
 
 To create your character. Drag the  ``||variables:set mySprite||`` ``||sprites:to IMAGE of kind Player||`` into the ``||loops:on start||`` block. 
@@ -71,9 +61,10 @@ controller.moveSprite(mySprite, 100, 0)
 
 ### Make our Character Jump @fullscreen
 
-Let's add a **Jump Event** which listens for the ``||controllers:A button||`` being pressed.
-When that happens it will move our character up in the y axis. Up here is a negative value. Drag in the ``||controllers: on A button pressed ||``
-Drag inside that a block ``||sprites:set mySprite x to 0 ||``. Change ``||sprites:x||`` to ``||sprites:vy velocity||`` set it to **-150**
+To make our character jump we will need to add an Event. This event will listen for the a button being pressed.
+When that happens it will do something. In this case move our character up in the y axis. Up here is a negative value.  
+Drag in the ``||ControllerButtonEvent: on A button pressed ||``
+An inside that event drag in the block that looks like  ``||sprites:set mySprite x to 0 ||`` and change x to vy velocity and set it to 150
 
 ```blocks
 let mySprite: Sprite = null
@@ -81,21 +72,13 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     mySprite.vy = -150
 })
 ```
-
-## Change the colour of the background
-
-### Change the colour of the background @fullscreen
-Change the colour of your background. Drag in from scene ``||scene:set background color to ||`` after your current blocks and click on the square to choose a colour.
-
-```blocks
-scene.setBackgroundColor(9)
-```
-
 ## What about Gravity?
 ### What happens? @fullscreen
-When we press ``||controllers:A||`` (which is SPACE on the keyboard) we jump but we don't come back down. 
-We need gravity! Add another block like ``||sprites:set mySprite x to 0 ||`` to the on start block and change the property to 
-``||sprites: ay (acceleration y) ||`` and set that to **300** 
+
+What happens when we press A (which is SPACE on the keyboard). We jump but we don't come back down. 
+We need gravity! To do this we'll use acceleration, again in the y axis, going down, 
+Add another block like ``||sprites:set mySprite x to 0 ||`` to the on start block and change the property to 
+``||sprites:(ay)acceleration y ||`` and set that to 300
 
 ```blocks
 let mySprite: Sprite = null
@@ -123,8 +106,7 @@ mySprite.ay = 300
 ## Using Tilemaps
 ### Create a Floor using a Tilemap @fullscreen
 
-To make a platformer we are going to need a floor and some platforms. 
-Drag in the ``||scene:set tilemap to  ||`` block into your on start block. 
+To make a platformer we are going to need a floor and some platforms. Drag in the ``||scene:set tilemap to  ||`` block into your on start block. 
 
 ```blocks
 let mySprite: Sprite = null
@@ -169,28 +151,38 @@ tiles.setTilemap(tiles.createTilemap(
 ### Create a Floor using a Tilemap 2 @fullscreen
 
 Click on the square and this opens up the ``||scene:Tilemap||`` editor. 
-Change the size in the bottom left to **10 x 8**  because each tile is 16 pixels square this is the just a bit bigger than the size of the screen.
-The whole screen is actually **160px wide by 120px high**. You can do the maths if you want :)
+Change the size in the bottom left to 10 x 8 which is the size of the screen. 
+Then draw a line on the bottom row. 
 
-![Change size to 10 by 8 ](https://raw.githubusercontent.com/mickfuzz/getting-started-making-a-platformer-test1/master/images/tilemap_1.png)
+![Change size to 10 by 8 ](https://p33.f1.n0.cdn.getcloudapp.com/items/4gumAoNv/Screenshot-2020-02-14T14%3A43%3A16.659Z.png)
 
 ###Create a Floor using a Tilemap 3 @fullscreen
-Create a line of tiles to be a floor. Choose a suitable tile for your floor. Why not the first, default one. Draw a line by clicking tiles at the bottom of the drawing area to create a floor.
-Now select the **Wall Drawing tool** and click the same squares. Then click on Done. 
+
+Select a suitable tile for your floor. Why not the first, default one. Draw a line at the bottom of your area to create a floor.
+Then select the Wall drawing tools and select the same squares. Click on Done. 
 
 ![Create a row of images and walls ](https://raw.githubusercontent.com/mickfuzz/getting-started-making-a-platformer-test1/master/images/makecode-1-2020-02-14-145027.gif)
 
 ### Now draw more platforms @fullscreen
 
-Now you will fall and come to rest on the floor. Can also jump up. In fact you can jump a lot, **even when you are in the air!** 
-We'll fix that in a bit.  For now **add some more platforms in your tilemap.** 
+If this works then you should come to rest on the floor and should able to jump up. In fact you can jump a lot. 
+We'll fix that in a bit but for now add some more platforms in your tilemap. 
 
 ![Design your platforms ](https://raw.githubusercontent.com/mickfuzz/getting-started-making-a-platformer-test1/master/images/makecode-2.png)
+
+## Change the colour of the background
+
+### Change the colour of the background @fullscreen
+Change the colour of your background. Drage in from Scene ``||scene:set background color to ||`` after your current blocks and click on the square to choose a colour.
+
+```blocks
+scene.setBackgroundColor(9)
+```
 
 ## Jump only when touching floor 
 ### Jump only when touching floor @fullscreen
 
-To jump only when touching floor we need to add in an extra ``||logic:logic if||`` block in our Event block. 
+To jump only when touching floor we need to add in an extra Conditional If block in our Event block. 
 Drag in a ``||logic:if true then||`` block from the Logic section ``||ControllerButtonEvent: on A button pressed ||``.
 
 ```blocks
@@ -202,8 +194,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 })
 ```
 
+
 ### Jump only when touching floor @fullscreen
-Drag in a ``||scene:Scene||`` block ``||scene:is mySprite hitting wall ||`` inside the ``||logic:logic if||`` block. Change the setting to ``||scene:hitting wall bottome||``. 
+Now drag in a ``||scene:Scene||`` block ``||scene:is mySprite hitting wall ||``  and change the setting to hitting wall bottom. 
 Now the player will only jump when it is touching down on a platform.  
 
 ```blocks
@@ -216,27 +209,36 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 ```
 
 ## Add a Goal - Collectable Food 
+### Add a Goal - Collectable Food 
+
+We have some essential components of a **Game** in place. We have a player who can walk left and right and jump when touching the ground. 
+We have a **Space** for our player to move it. **Now we need a Goal for our Game**. 
+In this next part we are going to add some fruit for our Player to collect. 
 
 ### Adding Food to our Tilemap @fullscreen
-**Now we need a Goal for our Game**. 
-To add Food for the Player to collect **click on the tilmap image and add in a few yellow squares**. 
-In the next step we will then turn them into strawberries.
+
+To add food to collect we are going to add some yellow squares to our tilemap. Later we will then turn them into strawberries.
+For now **Click on the tilmap image and add in a few yellow squares**. 
 
 ![Add in Yellow Squares ](https://raw.githubusercontent.com/mickfuzz/getting-started-making-a-platformer-test1/master/images/makecode-yellow-s1-2020-02-16-19.gif)
 
 ### Adding Food: Change Squares to Food @fullscreen
-Drag a ``||loops: for element value of list||`` block after your current blocks. 
-Replace ``||variables:list||`` with ``||scene: array of all locations||`` and choose a yellow block. Inside the ``||for loop||`` add a ``||variables:set strawberry to sprite of kind Food||`` and add a strawberry image from the gallery. 
-After this add a ``||scene:place on top of ||`` block and set to ``||scene:place strawberry on top of value||``
+
+Now let's create a sprite in the shape of some food. And ask our programme to turn every yellow square into one of those sprites. 
 
 ![Convert Yellow Squares ](https://raw.githubusercontent.com/mickfuzz/getting-started-making-a-platformer-test1/master/images/makecode-yellow-s2.gif)
 
 ### Adding Food: Change Squares to Food @fullscreen
 
-Let's removing the original yellow square which is now behind the strawberry by adding a ``||scene:scene||`` block  ``||scene: set blank box at||``  into our loop. 
-Keep the blank image in the first part of the block but change the second value to ``||variables:value||``. 
-![blank square](https://github.com/mickfuzz/makecode-platformer-101/blob/master/images/loop_replace_yellow.png?raw=true)
+Let's tidy this up by removing the original yellow square so it doesn't get confusing. 
+Do this by adding a block  ``||scene: set blank box at||`` from Scene into our loop. 
+![blank square one](https://github.com/mickfuzz/makecode-platformer-101/blob/master/images/loop_replace_yellow_1.png?raw=true)
 
+
+### Adding Food: Change Squares to Food @fullscreen
+
+Keep the blank image in the first part of the block but change the second value to value. You can drag it in from the one above. 
+![blank square](https://github.com/mickfuzz/makecode-platformer-101/blob/master/images/loop_replace_yellow.png?raw=true)
 
 ## Eating Food and Points 
 ### Eating Food and Points  @fullscreen
@@ -253,6 +255,7 @@ Drag in a ``||sprites:destroy mySprite ||`` block inside the ``||sprites:on spri
 Grab the ``||variables:otherSprite||`` variable from the first block onto the ``||variables:mySprite||`` part of the ``||sprites:destroy||`` block
 
 ```blocks
+
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     otherSprite.destroy()
 })
@@ -260,8 +263,9 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
 
 ### Eating Food and Points 3  @fullscreen
 Add an ``||info:Info||`` block ``||info:change score by 1||`` under the ``||sprites:destroy||`` block
-Now Your food should disappear when you touch it and you **gain points**.
+When playing your game now. Your food should disappear when you touch it and you gain points.
 ```blocks
+
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
     otherSprite.destroy()
     info.changeScoreBy(1)
@@ -275,23 +279,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
 
 Then play your game to test that it works ok. 
 
-Is it too easy? If so, can you make it changes that so one of the jumps is more challenging? 
-Or is it too hard? If so what can you change to make it easier?
-
-Try making small or large changes to the following:
-
-* the jump ``||sprites:vy (velocity y)||``  in the ``||controller:on A button pressed||`` block
-* player gravity with the ``||sprites:ay (acceleration y)||`` setting
-* player speed left and right in the ``||controller:move mySprite with buttons||`` block
-* the location of the platforms to make the jumps more challenging
-
-Get a friend or family member to test it out. Can they collect all the Food first time?
-Getting the balance right between too hard and too easy is key to making our game challening and interesting to play. 
-
 Hope you enjoyed part one of this tutorial. In part two we add the following elements to our platform game. 
 
-* Adding an End Goal that you must touch to win game
-* Make it so you much collect all Food to win the game
-* Creating a larger Game Space by increasing the width of the level
-* Adding Levels to extend our Game Space and increase challenge
+* Adding an end goal that you must touch to win game
+* Make it so you much collect all Food to win game
+* Creating a larger Game Space
+* Adding Levels
 
